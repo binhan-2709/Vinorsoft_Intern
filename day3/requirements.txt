@@ -1,0 +1,12 @@
+# Web Scraping
+requests
+beautifulsoup4
+selenium
+webdriver-manager
+
+# Database & Data Processing
+SQLAlchemy
+pandas
+
+# Environment Variables
+python-dotenv

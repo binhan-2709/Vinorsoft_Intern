@@ -1,0 +1,24 @@
+[project]
+name = "day4"
+version = "0.1.0"
+description = "Day 4 FastAPI project — Blog Cá Nhân CRUD API"
+authors = [
+    {name = "your-name", email = "your-email@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "fastapi>=0.116.0,<1.0.0",
+    "uvicorn[standard]>=0.35.0,<1.0.0",
+    "pydantic>=2.11.0,<3.0.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
