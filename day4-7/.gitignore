@@ -1,0 +1,61 @@
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+
+# ── Virtual environments ──────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.uv/
+
+# ── uv / pip ──────────────────────────────────────────────────────────
+uv.lock
+*.egg-info/
+dist/
+build/
+wheels/
+
+# ── Environment variables ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Database ──────────────────────────────────────────────────────────
+*.sqlite3
+*.db
+postgres_data/
+
+# ── Alembic ───────────────────────────────────────────────────────────
+# Giữ lại versions/ nhưng bỏ cache
+alembic/__pycache__/
+
+# ── Testing ───────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ── Type checking & linting ───────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+
+# ── IDE ───────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Docker ────────────────────────────────────────────────────────────
+.dockerignore
+
+# ── Logs ─────────────────────────────────────────────────────────────
+*.log
+logs/
