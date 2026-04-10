@@ -1,0 +1,22 @@
+$kind: http-request
+description: Làm mới access token khi hết hạn
+url: "{{base_url}}/api/v1/auth/token/refresh/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "refresh": "{{refresh_token}}"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const res = pm.response.json();
+      if (res.access) {
+        pm.collectionVariables.set('access_token', res.access);
+        console.log('Token đã được làm mới!');
+      }
+    language: text/javascript
+order: 4000

@@ -1,0 +1,5 @@
+$kind: http-request
+description: Xem tất cả đơn hàng của mình (admin thấy tất cả)
+url: "{{base_url}}/api/v1/orders/"
+method: GET
+order: 2000

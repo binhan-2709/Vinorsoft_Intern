@@ -1,0 +1,5 @@
+$kind: http-request
+description: Lấy tất cả danh mục — không cần đăng nhập
+url: "{{base_url}}/api/v1/inventory/categories/"
+method: GET
+order: 1000

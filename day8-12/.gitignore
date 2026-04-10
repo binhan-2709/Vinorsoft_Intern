@@ -1,0 +1,62 @@
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+
+# ── Virtual environments ──────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── uv / pip / poetry ────────────────────────────────────────────────
+*.egg-info/
+dist/
+build/
+wheels/
+
+# ── Environment variables ─────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Django ────────────────────────────────────────────────────────────
+*.sqlite3
+*.db
+staticfiles/
+media/
+local_settings.py
+
+# ── Database ──────────────────────────────────────────────────────────
+postgres_data/
+
+# ── Celery ────────────────────────────────────────────────────────────
+celerybeat-schedule
+celerybeat.pid
+
+# ── Testing ───────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ── Type checking & linting ───────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+
+# ── IDE ───────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.postman/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── Logs ─────────────────────────────────────────────────────────────
+*.log
+logs/

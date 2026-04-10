@@ -1,0 +1,25 @@
+$kind: collection
+description: >-
+  E-commerce Backend — Django Day 8-12
+
+
+  Hướng dẫn sử dụng:
+
+  1. Chạy 'Register' để tạo tài khoản
+
+  2. Chạy 'Login' để lấy token — token tự động được lưu vào biến
+  {{access_token}}
+
+  3. Từ đó tất cả request đều tự kèm token
+variables:
+  base_url: http://127.0.0.1:8000
+  access_token: ""
+  refresh_token: ""
+  product_slug: ""
+  order_id: ""
+auth:
+  - id: 1e83b744-c8ac-47e5-b815-71923c658545
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{access_token}}"

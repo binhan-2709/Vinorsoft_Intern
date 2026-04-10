@@ -1,0 +1,18 @@
+$kind: http-request
+description: Chỉ admin/staff mới tạo được — cần đăng nhập admin
+url: "{{base_url}}/api/v1/inventory/products/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "MacBook Pro M3",
+      "price": 45000000,
+      "stock": 10,
+      "description": "Laptop Apple mới nhất",
+      "is_active": true,
+      "category_id": 1
+    }
+order: 6000

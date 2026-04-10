@@ -1,0 +1,14 @@
+$kind: http-request
+description: Chỉ admin mới tạo được danh mục
+url: "{{base_url}}/api/v1/inventory/categories/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "name": "Đồ chơi",
+      "description": "Đồ chơi trẻ em các loại"
+    }
+order: 3000
