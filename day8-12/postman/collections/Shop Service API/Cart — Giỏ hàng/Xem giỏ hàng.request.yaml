@@ -1,5 +1,0 @@
-$kind: http-request
-description: Xem giỏ hàng hiện tại — cần đăng nhập
-url: "{{base_url}}/api/v1/cart/"
-method: GET
-order: 1000

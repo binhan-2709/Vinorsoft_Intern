@@ -1,5 +1,0 @@
-$kind: http-request
-description: Xem thông tin tài khoản đang đăng nhập
-url: "{{base_url}}/api/v1/auth/me/"
-method: GET
-order: 5000

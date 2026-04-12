@@ -1,5 +1,0 @@
-$kind: http-request
-description: Xem chi tiết danh mục theo slug
-url: "{{base_url}}/api/v1/inventory/categories/dien-tu/"
-method: GET
-order: 2000

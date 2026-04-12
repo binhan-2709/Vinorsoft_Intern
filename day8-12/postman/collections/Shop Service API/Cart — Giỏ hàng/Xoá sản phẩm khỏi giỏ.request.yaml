@@ -1,5 +1,0 @@
-$kind: http-request
-description: Xoá 1 sản phẩm — thay 1 bằng item_id từ response xem giỏ hàng
-url: "{{base_url}}/api/v1/cart/remove/1/"
-method: DELETE
-order: 3000

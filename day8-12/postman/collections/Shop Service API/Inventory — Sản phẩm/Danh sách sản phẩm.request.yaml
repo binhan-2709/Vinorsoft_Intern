@@ -1,7 +1,0 @@
-$kind: http-request
-description: Lấy tất cả sản phẩm — không cần đăng nhập
-url: "{{base_url}}/api/v1/inventory/products/"
-method: GET
-auth:
-  type: noauth
-order: 1000

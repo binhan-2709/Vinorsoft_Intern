@@ -1,9 +1,0 @@
-$kind: http-request
-description: Tìm kiếm theo tên sản phẩm
-url: "{{base_url}}/api/v1/inventory/products/?search=iphone"
-method: GET
-queryParams:
-  search: iphone
-auth:
-  type: noauth
-order: 2000
