@@ -1,0 +1,547 @@
+{
+  "info": {
+    "name": "Shop Service API",
+    "description": "E-commerce Backend — Django Day 8-13\n\nHướng dẫn sử dụng:\n1. Chạy 'Register' để tạo tài khoản\n2. Chạy 'Login' để lấy token — token tự động được lưu vào biến {{access_token}}\n3. Từ đó tất cả request đều tự kèm token",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "product_slug",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "order_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"nguyen_van_a\",\n  \"email\": \"nguyenvana@gmail.com\",\n  \"password\": \"matkhau123\",\n  \"password2\": \"matkhau123\",\n  \"phone\": \"0901234567\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/register/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "register", ""]
+            },
+            "description": "Đăng ký tài khoản mới"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.access) {",
+                  "  pm.collectionVariables.set('access_token', res.access);",
+                  "  pm.collectionVariables.set('refresh_token', res.refresh);",
+                  "  console.log('Token đã được lưu tự động!');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@shop.com\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/token/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "token", ""]
+            },
+            "description": "Đăng nhập — token tự động lưu vào biến {{access_token}}"
+          }
+        },
+        {
+          "name": "Login (Khách hàng)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.access) {",
+                  "  pm.collectionVariables.set('access_token', res.access);",
+                  "  pm.collectionVariables.set('refresh_token', res.refresh);",
+                  "  console.log('Token khách hàng đã được lưu!');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"khach@shop.com\",\n  \"password\": \"khach123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/token/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "token", ""]
+            },
+            "description": "Đăng nhập bằng tài khoản khách hàng"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.access) {",
+                  "  pm.collectionVariables.set('access_token', res.access);",
+                  "  console.log('Token đã được làm mới!');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/token/refresh/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "token", "refresh", ""]
+            },
+            "description": "Làm mới access token khi hết hạn"
+          }
+        },
+        {
+          "name": "Thông tin tôi (Me)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "me", ""]
+            },
+            "description": "Xem thông tin tài khoản đang đăng nhập"
+          }
+        },
+        {
+          "name": "Cập nhật thông tin",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0987654321\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/auth/me/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "auth", "me", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory — Danh mục",
+      "item": [
+        {
+          "name": "Danh sách danh mục",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "categories", ""]
+            },
+            "description": "Lấy tất cả danh mục — không cần đăng nhập"
+          }
+        },
+        {
+          "name": "Chi tiết danh mục",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/categories/dien-tu/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "categories", "dien-tu", ""]
+            },
+            "description": "Xem chi tiết danh mục theo slug"
+          }
+        },
+        {
+          "name": "Tạo danh mục (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Đồ chơi\",\n  \"description\": \"Đồ chơi trẻ em các loại\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "categories", ""]
+            },
+            "description": "Chỉ admin mới tạo được danh mục"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inventory — Sản phẩm",
+      "item": [
+        {
+          "name": "Danh sách sản phẩm",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", ""]
+            },
+            "description": "Lấy tất cả sản phẩm — không cần đăng nhập"
+          }
+        },
+        {
+          "name": "Tìm kiếm sản phẩm",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/?search=iphone",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", ""],
+              "query": [
+                { "key": "search", "value": "iphone" }
+              ]
+            },
+            "description": "Tìm kiếm theo tên sản phẩm"
+          }
+        },
+        {
+          "name": "Lọc theo danh mục + giá",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/?min_price=100000&max_price=5000000&in_stock=true",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", ""],
+              "query": [
+                { "key": "min_price", "value": "100000" },
+                { "key": "max_price", "value": "5000000" },
+                { "key": "in_stock", "value": "true" }
+              ]
+            },
+            "description": "Lọc sản phẩm theo khoảng giá và còn hàng"
+          }
+        },
+        {
+          "name": "Sản phẩm còn hàng",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/in_stock/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", "in_stock", ""]
+            }
+          }
+        },
+        {
+          "name": "Chi tiết sản phẩm",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.slug) {",
+                  "  pm.collectionVariables.set('product_slug', res.slug);",
+                  "  console.log('Slug đã lưu:', res.slug);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/iphone-15-pro/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", "iphone-15-pro", ""]
+            },
+            "description": "Xem chi tiết sản phẩm theo slug"
+          }
+        },
+        {
+          "name": "Tạo sản phẩm (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"MacBook Pro M3\",\n  \"price\": 45000000,\n  \"stock\": 10,\n  \"description\": \"Laptop Apple mới nhất\",\n  \"is_active\": true,\n  \"category_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", ""]
+            },
+            "description": "Chỉ admin/staff mới tạo được — cần đăng nhập admin"
+          }
+        },
+        {
+          "name": "Cập nhật sản phẩm (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 26990000,\n  \"stock\": 45\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/inventory/products/{{product_slug}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "inventory", "products", "{{product_slug}}", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cart — Giỏ hàng",
+      "item": [
+        {
+          "name": "Xem giỏ hàng",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/cart/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cart", ""]
+            },
+            "description": "Xem giỏ hàng hiện tại — cần đăng nhập"
+          }
+        },
+        {
+          "name": "Thêm vào giỏ",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": 1,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/cart/add/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cart", "add", ""]
+            },
+            "description": "Thêm sản phẩm vào giỏ — đổi product_id cho phù hợp"
+          }
+        },
+        {
+          "name": "Xoá sản phẩm khỏi giỏ",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/cart/remove/1/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cart", "remove", "1", ""]
+            },
+            "description": "Xoá 1 sản phẩm — thay 1 bằng item_id từ response xem giỏ hàng"
+          }
+        },
+        {
+          "name": "Xoá toàn bộ giỏ hàng",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/cart/clear/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cart", "clear", ""]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders — Đơn hàng",
+      "item": [
+        {
+          "name": "Đặt hàng (Checkout)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.id) {",
+                  "  pm.collectionVariables.set('order_id', res.id);",
+                  "  console.log('Order ID đã lưu:', res.id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"shipping_address\": \"123 Đường Láng, Đống Đa, Hà Nội\",\n  \"note\": \"Giao giờ hành chính, gọi trước khi đến\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/checkout/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "orders", "checkout", ""]
+            },
+            "description": "Đặt hàng từ giỏ hàng hiện tại — order_id tự lưu vào biến"
+          }
+        },
+        {
+          "name": "Danh sách đơn hàng",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "orders", ""]
+            },
+            "description": "Xem tất cả đơn hàng của mình (admin thấy tất cả)"
+          }
+        },
+        {
+          "name": "Chi tiết đơn hàng",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/{{order_id}}/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "orders", "{{order_id}}", ""]
+            }
+          }
+        },
+        {
+          "name": "Huỷ đơn hàng",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/{{order_id}}/cancel/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "orders", "{{order_id}}", "cancel", ""]
+            },
+            "description": "Chỉ huỷ được khi đơn đang ở trạng thái pending hoặc confirmed"
+          }
+        },
+        {
+          "name": "Đổi trạng thái đơn (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/orders/{{order_id}}/update_status/",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "orders", "{{order_id}}", "update_status", ""]
+            },
+            "description": "Chỉ admin mới đổi được trạng thái\nCác giá trị: pending, confirmed, shipping, delivered, cancelled"
+          }
+        }
+      ]
+    }
+  ]
+}
