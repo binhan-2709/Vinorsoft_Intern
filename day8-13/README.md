@@ -143,40 +143,34 @@ uv run celery -A config worker --loglevel=info
 
 ## Chạy Tests (Day 13)
 
-### Cài test dependencies
+> **💡 Lưu ý:** Toàn bộ hệ thống kiểm thử (`pytest`, `pytest-django`, `pytest-cov`, `factory-boy`) đã được đóng gói sẵn vào trong container `app` thông qua `Dockerfile`. Bạn không cần phải cài đặt thủ công thêm bất kỳ thư viện nào trên máy chủ (host).
 
-```bash
-uv add --dev pytest pytest-django pytest-cov factory-boy
-```
+Để chạy test, chúng ta sẽ gửi lệnh thực thi trực tiếp vào bên trong container `app`.
 
-## Chạy Tests (Day 13)
+### 1. Chạy toàn bộ bài test & Báo cáo độ bao phủ (Coverage)
+docker compose exec app pytest tests/ -v --cov=apps --cov-report=term-missing
 
-### Cài test dependencies
+### 2. Chạy test theo từng Module chức năng
+# Test phân hệ Kho hàng (Category, Product)
+docker compose exec app pytest tests/test_inventory.py -v
 
-```bash
-pip install pytest pytest-django pytest-cov factory-boy
+# Test phân hệ Giỏ hàng (Cart, CartItem)
+docker compose exec app pytest tests/test_cart.py -v
 
-# Chạy tất cả tests + coverage report
-pytest tests/ -v
+# Test phân hệ Đơn hàng (Order, Checkout, Celery Tasks, Signals)
+docker compose exec app pytest tests/test_orders.py -v
 
-# Chạy 1 module cụ thể
-pytest tests/test_inventory.py -v
-pytest tests/test_cart.py -v
-pytest tests/test_orders.py -v
-pytest tests/test_users.py -v
+# Test phân hệ Người dùng (Auth, Register, JWT)
+docker compose exec app pytest tests/test_users.py -v
 
-# Chạy 1 class cụ thể
-pytest tests/test_orders.py::TestCheckoutAPI -v
+### 3. Chạy test siêu tốc cho 1 Class hoặc 1 Function
+# Chỉ chạy toàn bộ các test trong Class TestCheckoutAPI
+docker compose exec app pytest tests/test_orders.py::TestCheckoutAPI -v
 
-# Chạy 1 test function cụ thể
-pytest tests/test_cart.py::TestCartAPI::test_add_product_to_cart -v
-
-# Xem coverage dạng HTML
-pytest --cov=apps --cov-report=html
-# Mở file htmlcov/index.html trong trình duyệt để xem báo cáo chi tiết
+# Chỉ chạy chính xác 1 hàm test_add_product_to_cart
+docker compose exec app pytest tests/test_cart.py::TestCartAPI::test_add_product_to_cart -v
 
 ### Kỹ thuật test quan trọng
-
 **Fixtures** — tạo dữ liệu test dùng lại (`conftest.py`):
 ```python
 @pytest.fixture
